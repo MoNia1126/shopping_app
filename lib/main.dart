@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/shopping_screen.dart';
+import 'package:shopping_app/screens/sign_up_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Lora' //app font family
           ),
-      home: const ShoppingScreen(),
+      home: SignUpScreen(),
     );
   }
 }

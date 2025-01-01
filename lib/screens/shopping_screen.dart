@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/hot_offer_list.dart';
-import 'package:shopping_app/product_grid.dart';
-import 'package:shopping_app/product_page_view.dart';
+import 'package:shopping_app/screens/hot_offer_list.dart';
+import 'package:shopping_app/screens/product_grid.dart';
+import 'package:shopping_app/screens/product_page_view.dart';
 
 class ShoppingScreen extends StatefulWidget {
   const ShoppingScreen({super.key});
@@ -28,6 +28,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
     return Scaffold(
       backgroundColor: Colors.white, //background color
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           "Shopping App",
           style: TextStyle(
