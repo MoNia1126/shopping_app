@@ -10,6 +10,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool hidePassword = true;
   final TextEditingController fullNameController = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
@@ -55,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     CustomTextFormField(
                       label: 'Full Name',
                       controller: fullNameController,
+                      prefixIcon: Icon(Icons.person),
                       validator: (text) {
                         if (text == null || text.trim().isEmpty) {
                           return 'Please Enter Full Name';
@@ -69,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       label: 'Email',
                       keyboardType: TextInputType.emailAddress,
                       controller: emailController,
+                      prefixIcon: Icon(Icons.email),
                       validator: (text) {
                         if (text == null ||
                             text.trim().isEmpty ||
@@ -88,7 +91,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       label: 'Password',
                       keyboardType: TextInputType.number,
                       controller: passwordController,
-                      obscureText: true,
+                      prefixIcon: Icon(Icons.password),
+                      obscureText: hidePassword,
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            togglePassword();
+                          },
+                          icon: Icon(hidePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off)),
                       validator: (text) {
                         if (text == null || text.trim().isEmpty) {
                           return 'Please Enter Password';
@@ -103,7 +114,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       label: 'Confirm Password',
                       keyboardType: TextInputType.number,
                       controller: confirmPasswordController,
-                      obscureText: true,
+                      prefixIcon: Icon(Icons.password),
+                      obscureText: hidePassword,
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            togglePassword();
+                          },
+                          icon: Icon(hidePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off)),
                       validator: (text) {
                         if (text == null || text.trim().isEmpty) {
                           return 'Please Enter Confirm Password';
@@ -191,5 +210,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       );
     }
+  }
+
+  togglePassword() {
+    hidePassword = !hidePassword;
+    setState(() {});
   }
 }
