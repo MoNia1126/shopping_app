@@ -11,6 +11,18 @@ class ShoppingScreen extends StatefulWidget {
 }
 
 class _ShoppingScreenState extends State<ShoppingScreen> {
+  double opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        opacity = 1.0;
+      });
+    });
+  }
+
   //List contains details about hot offers
   final List<Map<String, String>> hotOffers = [
     {'image': 'assets/images/product13.jpg', 'text': 'Hot Offer 1'},
@@ -23,58 +35,61 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size; //get screen size using mediaQuery
+    var size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: Colors.white, //background color
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          "Shopping App",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-            color: Colors.white,
-            // fontFamily: 'Lora'
+    return AnimatedOpacity(
+        duration: const Duration(seconds: 1),
+        opacity: opacity,
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: const Text(
+              "Shopping App",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                color: Colors.white,
+                // fontFamily: 'Lora'
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.deepPurple,
           ),
-        ),
-        centerTitle: true, //make the title in center
-        backgroundColor: Colors.deepPurple,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                "Our Products",
-                style: TextStyle(
-                    fontFamily: "Lora",
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.brown[900]),
-              ),
-            ),
-            SizedBox(height: size.height * 0.003),
-            ProductPageView(),
-            const ProductsGrid(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Hot Offers',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  // fontFamily: "Lora",
-                  color: Colors.brown[900],
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    "Our Products",
+                    style: TextStyle(
+                        fontFamily: "Lora",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.brown[900]),
+                  ),
                 ),
-              ),
+                SizedBox(height: size.height * 0.003),
+                ProductPageView(),
+                const ProductsGrid(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Hot Offers',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      // fontFamily: "Lora",
+                      color: Colors.brown[900],
+                    ),
+                  ),
+                ),
+                HotOffersList(offers: hotOffers),
+              ],
             ),
-            HotOffersList(offers: hotOffers),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
