@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/screens/shopping_screen.dart';
 import 'package:shopping_app/screens/sign_up_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final Function(Locale) changeLanguage;
+
+  const SignUpScreen({super.key, required this.changeLanguage});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -36,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         AnimatedSwitcher(
             duration: const Duration(seconds: 1),
             child: showShoppingScreen
-                ? const ShoppingScreen()
+                ? ShoppingScreen(changeLanguage: widget.changeLanguage)
                 : AnimatedOpacity(
                     duration: const Duration(seconds: 1),
                     opacity: opacity,
@@ -49,9 +52,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.2),
-                            const Center(
+                            Center(
                               child: Text(
-                                "Sign Up",
+                                AppLocalizations.of(context)!.sign_up,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -81,10 +84,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     backgroundColor:
                                         Theme.of(context).primaryColor,
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 120)),
+                                        vertical: 10, horizontal: 100)),
                                 onPressed: _validateDialog,
-                                child: const Text(
-                                  'Sign Up',
+                                child: Text(
+                                  AppLocalizations.of(context)!.sign_up,
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
@@ -93,7 +96,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  "Already have an account?",
+                                  AppLocalizations.of(context)!
+                                      .already_have_an_account,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -114,12 +118,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            'Success',
+            AppLocalizations.of(context)!.success,
             style: TextStyle(
               color: Theme.of(context).primaryColor,
             ),
           ),
-          content: const Text('Account created successfully!'),
+          content:
+              Text(AppLocalizations.of(context)!.account_created_successfully),
           actions: [
             TextButton(
               onPressed: () async {
@@ -132,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   showShoppingScreen = true;
                 });
               },
-              child: const Text('Close'),
+              child: Text(AppLocalizations.of(context)!.close),
             ),
           ],
         ),
@@ -140,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please fix the errors.',
+          content: Text(AppLocalizations.of(context)!.please_fix_the_errors,
               style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductPageView extends StatelessWidget {
   //List of features
@@ -16,21 +17,19 @@ class ProductPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height:
-          MediaQuery.of(context).size.height * 0.5, //set height to any screen
+      height: MediaQuery.of(context).size.height * 0.5,
       width: MediaQuery.of(context).size.width, //full screen width
       child: PageView.builder(
-        itemCount: productImages.length, //num of images in list
+        itemCount: productImages.length,
         itemBuilder: (context, index) {
           return Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), //box rounded
+                    borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                       image: AssetImage(productImages[index]),
-                      //display product image
-                      fit: BoxFit.fill, //image fill the container
+                      fit: BoxFit.fill,
                     ),
                   ),
                   alignment: Alignment.bottomLeft,
@@ -38,7 +37,7 @@ class ProductPageView extends StatelessWidget {
                     color: Colors.black.withOpacity(0.3), //transparent
                     padding: const EdgeInsets.all(3.0),
                     child: Text(
-                      'Product ${index + 1}', //product label
+                      '${AppLocalizations.of(context)!.product} ${index + 1}',
                       style: TextStyle(fontSize: 15, color: Colors.white),
                     ),
                   )));

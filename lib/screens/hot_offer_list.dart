@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HotOffersList extends StatelessWidget {
   final List<Map<String, String>> offers;
@@ -8,10 +9,9 @@ class HotOffersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (offers.isEmpty) {
-      // Display message if no offers are available
       return Center(
         child: Text(
-          'No offers available',
+          AppLocalizations.of(context)!.no_offers_available,
         ),
       );
     }

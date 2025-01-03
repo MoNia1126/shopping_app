@@ -2,6 +2,7 @@
 
 A Flutter application that delivers a simple shopping App. In the app, one will have a product page
 view, grid-based product displays, and a section for hot offers.
+The app supports Arabic and English languages using Flutter's localization features
 
 ---
 
@@ -19,19 +20,27 @@ view, grid-based product displays, and a section for hot offers.
 - **Fade-In Animation**: Smoothly introduces the `ShoppingScreen` using a `fade-in` effect.
 - **Reusable Components**: Created widgets like `CustomTextFormField` for scalable and modular
   development.
+- **Localization**: Supports both `Arabic` and `English` languages.
 
 ---
 
 ### Screenshots
 
-| **Feature**    | **Screenshot**                |
-|----------------|-------------------------------|
-| **Product**    | ![Product](output.png)        |
-| **Hot Offers** | ![Hot Offers](output2.png)    |
-| **Grid**       | ![Grid](grid.png)             |
-| **SignUp**     | ![signUp](signUp.png)         |
-| **Validation** | ![Validation](validation.png) |
-| **Dialog**     | ![Dialog](dialog.png)         |
+| **Feature**           | **Screenshot**                              |
+|-----------------------|---------------------------------------------|
+| **Product**           | ![Product](output.png)                      |
+| **Hot Offers**        | ![Hot Offers](output2.png)                  |
+| **Grid**              | ![Grid](grid.png)                           |
+| **SignUp**            | ![signUp](signUp.png)                       |
+| **Validation**        | ![Validation](validation.png)               |
+| **Dialog**            | ![Dialog](dialog.png)                       |
+| **arabic_dialog**     | ![Arabic Dialog](arabic_dialog.jpg)         |
+| **arabic_home**       | ![Arabic Home](arabic_home.jpg)             |
+| **arabic_validation** | ![Arabic Validation](arabic_validation.jpg) |
+| **arabic_signup**     | ![Arabic SignUp](arabic_signup.jpg)         |
+| **icon**              | ![Icon](icon.jpg)                           |
+| **offer**             | ![Offer](offer.jpg)                         |
+| **product**           | ![Product](product.jpg)                     |
 
 ---
 
@@ -41,14 +50,18 @@ view, grid-based product displays, and a section for hot offers.
 shopping_app/
 ├── lib/
 │   ├── main.dart                  # Main entry point of the app
+│   ├── l10n/                  # Localization files
+│   ├── app_en.arb         # English translations
+│   └── app_ar.arb         # Arabic translations
 │   ├── screens/
 │   │   ├── shopping_screen.dart   # Main shopping screen
 │   │   ├── signup_screen.dart     # Sign up screen with validation
+│   │   
+│   ├── widgets/
+│   │   ├── custom_text_form_field.dart # Custom text field widget
 │   │   ├── product_page_view.dart # PageView for featured products
 │   │   ├── product_grid.dart      # Grid layout for product display
 │   │   ├── hot_offer_list.dart    # Horizontal list for hot offers
-│   ├── widgets/
-│   │   ├── custom_text_form_field.dart # Custom text field widget
 ├── assets/
 │   ├── images/
 │   │   ├── main_back.jpg          # Background image for the Sign Up screen
@@ -64,7 +77,6 @@ shopping_app/
 ├── signup.png                     # Screenshot of the Sign Up screen
 ├── validation.png                     # Screenshot of validation
 ├── dialog.png                     # Screenshot of dialog
-   
 
 ```
 
@@ -179,3 +191,11 @@ experience:
   transition.
 - The opacity of the screen starts at 0.0 and gradually transitions to 1.0 with a delay of **300
   milliseconds**, providing a sleek visual effect for the screen's appearance.
+
+### **Localization Setup**
+
+1. Add Localization Files The app uses Flutter's `flutter_localizations` package to support multiple
+   languages.
+2. The translation files are located in the `l10n` folder:
+   `app_ar.arb` (Arabic)
+   `app_en.arb` (English)

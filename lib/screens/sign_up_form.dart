@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/widgets/custom_text_form_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpForm extends StatelessWidget {
   final TextEditingController fullNameController;
@@ -30,21 +31,22 @@ class SignUpForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CustomTextFormField(
-              label: 'Full Name',
+              label: AppLocalizations.of(context)!.full_name,
               controller: fullNameController,
               prefixIcon: const Icon(Icons.person),
               validator: (text) {
                 if (text == null || text.trim().isEmpty) {
-                  return 'Please Enter Full Name';
+                  return AppLocalizations.of(context)!.please_enter_full_name;
                 }
                 if (text[0] != text[0].toUpperCase()) {
-                  return 'First letter must be capitalized';
+                  return AppLocalizations.of(context)!
+                      .first_letter_must_be_capitalized;
                 }
                 return null;
               },
             ),
             CustomTextFormField(
-              label: 'Email',
+              label: AppLocalizations.of(context)!.email,
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               prefixIcon: const Icon(Icons.email),
@@ -52,13 +54,13 @@ class SignUpForm extends StatelessWidget {
                 if (text == null ||
                     text.trim().isEmpty ||
                     !text.contains('@')) {
-                  return 'Please Enter Email';
+                  return AppLocalizations.of(context)!.please_enter_email;
                 }
                 return null;
               },
             ),
             CustomTextFormField(
-              label: 'Password',
+              label: AppLocalizations.of(context)!.password,
               controller: passwordController,
               obscureText: hidePassword,
               prefixIcon: const Icon(Icons.lock),
@@ -69,16 +71,17 @@ class SignUpForm extends StatelessWidget {
               ),
               validator: (text) {
                 if (text == null || text.trim().isEmpty) {
-                  return 'Please Enter Password';
+                  return AppLocalizations.of(context)!.please_enter_password;
                 }
                 if (text.length < 6) {
-                  return 'Password must be at least 6 chars.';
+                  return AppLocalizations.of(context)!
+                      .password_must_be_at_least_6_chars;
                 }
                 return null;
               },
             ),
             CustomTextFormField(
-              label: 'Confirm Password',
+              label: AppLocalizations.of(context)!.confirm_password,
               controller: confirmPasswordController,
               obscureText: hidePassword,
               prefixIcon: const Icon(Icons.lock),
@@ -89,10 +92,11 @@ class SignUpForm extends StatelessWidget {
               ),
               validator: (text) {
                 if (text == null || text.trim().isEmpty) {
-                  return 'Please Enter Confirm Password';
+                  return AppLocalizations.of(context)!
+                      .please_enter_confirm_password;
                 }
                 if (text != passwordController.text) {
-                  return "Passwords do not match.";
+                  return AppLocalizations.of(context)!.password_do_not_match;
                 }
                 return null;
               },
