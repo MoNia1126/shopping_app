@@ -9,7 +9,9 @@ class SignUpForm extends StatelessWidget {
   final TextEditingController confirmPasswordController;
   final GlobalKey<FormState> formKey;
   final bool hidePassword;
+  final bool confirmPassword;
   final VoidCallback togglePassword;
+  final VoidCallback toggleConfirmPassword;
 
   const SignUpForm({
     super.key,
@@ -19,7 +21,9 @@ class SignUpForm extends StatelessWidget {
     required this.confirmPasswordController,
     required this.formKey,
     required this.hidePassword,
+    required this.confirmPassword,
     required this.togglePassword,
+    required this.toggleConfirmPassword,
   });
 
   @override
@@ -83,12 +87,12 @@ class SignUpForm extends StatelessWidget {
             CustomTextFormField(
               label: AppLocalizations.of(context)!.confirm_password,
               controller: confirmPasswordController,
-              obscureText: hidePassword,
+              obscureText: confirmPassword,
               prefixIcon: const Icon(Icons.lock),
               suffixIcon: IconButton(
-                onPressed: togglePassword,
+                onPressed: toggleConfirmPassword,
                 icon: Icon(
-                    hidePassword ? Icons.visibility_off : Icons.visibility),
+                    confirmPassword ? Icons.visibility_off : Icons.visibility),
               ),
               validator: (text) {
                 if (text == null || text.trim().isEmpty) {

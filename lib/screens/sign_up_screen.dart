@@ -1,12 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shopping_app/screens/login_screen.dart';
 import 'package:shopping_app/screens/shopping_screen.dart';
-import 'package:shopping_app/screens/sign_up_form.dart';
+import 'package:shopping_app/widgets/sign_up_form.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
-  final Function(Locale) changeLanguage;
-
-  const SignUpScreen({super.key, required this.changeLanguage});
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -14,6 +14,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool hidePassword = true;
+  bool confirmPassword = true;
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -39,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         AnimatedSwitcher(
             duration: const Duration(seconds: 1),
             child: showShoppingScreen
-                ? ShoppingScreen(changeLanguage: widget.changeLanguage)
+                ? ShoppingScreen()
                 : AnimatedOpacity(
                     duration: const Duration(seconds: 1),
                     opacity: opacity,
@@ -72,7 +73,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   confirmPasswordController,
                               formKey: formKey,
                               hidePassword: hidePassword,
+                              confirmPassword: confirmPassword,
                               togglePassword: togglePassword,
+                              toggleConfirmPassword: toggleConfirmPassword,
                             ),
                             SizedBox(
                                 height:
@@ -94,7 +97,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()));
+                                },
                                 child: Text(
                                   AppLocalizations.of(context)!
                                       .already_have_an_account,
@@ -112,10 +120,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     ));
   }
 
-  void _validateDialog() {
+  void _validateDialog() async {
     if (formKey.currentState!.validate()) {
-      showDialog(
-        context: context,
+      try {
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+        if (credential.user != null) {
+          showDialog(
+            context: context,
         builder: (context) => AlertDialog(
           title: Text(
             AppLocalizations.of(context)!.success,
@@ -141,26 +156,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ],
         ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.please_fix_the_errors,
-              style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        String errorMessage;
+        if (e.code == 'weak-password') {
+          errorMessage = AppLocalizations.of(context)!.weak_password;
+        } else if (e.code == 'email-already-in-use') {
+          errorMessage = AppLocalizations.of(context)!.email_already_in_use;
+        } else {
+          errorMessage = AppLocalizations.of(context)!.unexpected_error;
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage, style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            duration: const Duration(seconds: 2),
           ),
-          duration: Duration(seconds: 1),
-        ),
-      );
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.unexpected_error,
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 
   void togglePassword() {
     setState(() {
       hidePassword = !hidePassword;
+    });
+  }
+
+  void toggleConfirmPassword() {
+    setState(() {
+      confirmPassword = !confirmPassword;
     });
   }
 }

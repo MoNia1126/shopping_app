@@ -35,5 +35,18 @@
   "product_12": "المنتج 12",
   "no_offers_available": "لا توجد عروض متاحة",
   "english": "الانجليزية",
-  "arabic": "العربية"
+  "arabic": "العربية",
+  "login": "تسجيل الدخول",
+  "newHere": "جديد هنا؟",
+  "unexpected_error": "خطأ غير متوقع",
+  "weak_password": "كلمة المرور ضعيفة",
+  "email_already_in_use": "البريد الإلكتروني مستخدم بالفعل",
+  "invalid_email": "البريد الإلكتروني غير صالح",
+  "user_not_found": "المستخدم غير موجود",
+  "wrong_password": "كلمة المرور خاطئة",
+  "login_successful": "تم تسجيل الدخول بنجاح",
+  "logout": "تسجيل الخروج",
+  "logout_confirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "cancel": "الغاء",
+  "confirm": "تاكيد"
 }

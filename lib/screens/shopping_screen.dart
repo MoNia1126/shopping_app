@@ -1,29 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_app/screens/hot_offer_list.dart';
-import 'package:shopping_app/screens/product_grid.dart';
-import 'package:shopping_app/screens/product_page_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/cubits/change_language_cubit.dart';
+import 'package:shopping_app/widgets/hot_offer_list.dart';
+import 'package:shopping_app/screens/login_screen.dart';
+import 'package:shopping_app/widgets/product_grid.dart';
+import 'package:shopping_app/widgets/product_page_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShoppingScreen extends StatefulWidget {
-  final Function(Locale) changeLanguage;
-
-  const ShoppingScreen({super.key, required this.changeLanguage});
+  const ShoppingScreen({super.key});
 
   @override
   State<ShoppingScreen> createState() => _ShoppingScreenState();
 }
 
 class _ShoppingScreenState extends State<ShoppingScreen> {
-  Locale _locale = const Locale('en');
 
-  void _changeLanguage(Locale? locale) {
-    if (locale != null) {
-      setState(() {
-        _locale = locale;
-      });
-      widget.changeLanguage(locale);
-    }
-  }
 
   double opacity = 0.0;
 
@@ -91,7 +84,13 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
           actions: [
             DropdownButton<Locale>(
               icon: const Icon(Icons.language, color: Colors.white),
-              onChanged: _changeLanguage,
+              onChanged: (locale) {
+                if (locale != null) {
+                  context
+                      .read<ChangeLanguageCubit>()
+                      .changeLanguage(locale.languageCode);
+                }
+              },
               items: [
                 DropdownMenuItem(
                   value: Locale('en'),
@@ -104,8 +103,12 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
               ],
               underline: const SizedBox(),
             ),
+            IconButton(
+                onPressed: () {
+                  handleLogout(context);
+                },
+                icon: Icon(Icons.logout, color: Colors.white))
           ],
-          centerTitle: true,
           backgroundColor: Colors.deepPurple,
         ),
         body: SingleChildScrollView(
@@ -145,5 +148,33 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> handleLogout(BuildContext context) async {
+    bool confirmLogout = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.logout),
+          content: Text(AppLocalizations.of(context)!.logout_confirmation),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(AppLocalizations.of(context)!.confirm),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmLogout) {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
   }
 }

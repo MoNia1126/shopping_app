@@ -35,5 +35,19 @@
   "product_12": "Product 12",
   "no_offers_available": "No offers available",
   "english": "English",
-  "arabic": "Arabic"
+  "arabic": "Arabic",
+  "login": "Login",
+  "newHere": "New Here?",
+  "unexpected_error": "Unexpected error",
+  "weak_password": "Weak password",
+  "email_already_in_use": "Email already in use",
+  "invalid_email": "Invalid email",
+  "user_not_found": "User not found",
+  "wrong_password": "Wrong password",
+  "login_successful": "Login successful",
+  "logout": "Logout",
+  "logout_confirmation": "Are you sure you want to logout?",
+  "cancel": "Cancel",
+  "confirm": "Confirm"
+
 }

@@ -1,6 +1,7 @@
 # Shopping App
 
-A Flutter application that delivers a simple shopping App. In the app, one will have a product page
+A Flutter application that delivers a simple shopping App. In the app with Firebase Authentication
+for user registration, login, and logout, one will have a product page
 view, grid-based product displays, and a section for hot offers.
 The app supports Arabic and English languages using Flutter's localization features
 
@@ -21,26 +22,32 @@ The app supports Arabic and English languages using Flutter's localization featu
 - **Reusable Components**: Created widgets like `CustomTextFormField` for scalable and modular
   development.
 - **Localization**: Supports both `Arabic` and `English` languages.
+- **Firebase Authentication**: Used for **sign up**, **login**, and **logout** functionality.
+- **State Management**: Uses Cubit for managing the app's state, including **language changes**.
 
 ---
 
 ### Screenshots
 
-| **Feature**           | **Screenshot**                              |
-|-----------------------|---------------------------------------------|
-| **Product**           | ![Product](output.png)                      |
-| **Hot Offers**        | ![Hot Offers](output2.png)                  |
-| **Grid**              | ![Grid](grid.png)                           |
-| **SignUp**            | ![signUp](signUp.png)                       |
-| **Validation**        | ![Validation](validation.png)               |
-| **Dialog**            | ![Dialog](dialog.png)                       |
-| **arabic_dialog**     | ![Arabic Dialog](arabic_dialog.jpg)         |
-| **arabic_home**       | ![Arabic Home](arabic_home.jpg)             |
-| **arabic_validation** | ![Arabic Validation](arabic_validation.jpg) |
-| **arabic_signup**     | ![Arabic SignUp](arabic_signup.jpg)         |
-| **icon**              | ![Icon](icon.jpg)                           |
-| **offer**             | ![Offer](offer.jpg)                         |
-| **product**           | ![Product](product.jpg)                     |
+| **Feature**           | **Screenshot**                                          |
+|-----------------------|---------------------------------------------------------|
+| **login**             | ![Login](screenshots/login.jpeg)                        |
+| **logout**            | ![Logout](screenshots/logout.jpeg)                      |
+| **loginSuccess**      | ![Login Success](screenshots/loginSuccess.jpeg)         |
+| **signUpFirebase**    | ![SignUp Firebase](screenshots/signUpFirebase.jpeg)     |
+| **Product**           | ![Product](screenshots/output.png)                      |
+| **Hot Offers**        | ![Hot Offers](screenshots/output2.png)                  |
+| **Grid**              | ![Grid](screenshots/grid.png)                           |
+| **SignUp**            | ![signUp](screenshots/signUp.png)                       |
+| **Validation**        | ![Validation](screenshots/validation.png)               |
+| **Dialog**            | ![Dialog](screenshots/dialog.png)                       |
+| **arabic_dialog**     | ![Arabic Dialog](screenshots/arabic_dialog.jpg)         |
+| **arabic_home**       | ![Arabic Home](screenshots/arabic_home.jpg)             |
+| **arabic_validation** | ![Arabic Validation](screenshots/arabic_validation.jpg) |
+| **arabic_signup**     | ![Arabic SignUp](screenshots/arabic_signup.jpg)         |
+| **icon**              | ![Icon](screenshots/icon.jpg)                           |
+| **offer**             | ![Offer](screenshots/offer.jpg)                         |
+| **product**           | ![Product](screenshots/product.jpg)                     |
 
 ---
 
@@ -56,12 +63,15 @@ shopping_app/
 │   ├── screens/
 │   │   ├── shopping_screen.dart   # Main shopping screen
 │   │   ├── signup_screen.dart     # Sign up screen with validation
-│   │   
+│   │   └── login_screen.dart
 │   ├── widgets/
 │   │   ├── custom_text_form_field.dart # Custom text field widget
 │   │   ├── product_page_view.dart # PageView for featured products
 │   │   ├── product_grid.dart      # Grid layout for product display
-│   │   ├── hot_offer_list.dart    # Horizontal list for hot offers
+│   │   └── hot_offer_list.dart    # Horizontal list for hot offers
+│   ├── cubits/
+│   │   ├── changeLanguageCubit.dart # Cubit for language changes
+│   │   └── changeLanguageState.dart # State for language changes 
 ├── assets/
 │   ├── images/
 │   │   ├── main_back.jpg          # Background image for the Sign Up screen
@@ -92,110 +102,99 @@ flutter run
 
 ```
 
-## **Sign Up Screen Functionality**
+### Firebase Authentication
 
-The **Sign Up Screen** includes a form with the following fields:
+The app uses Firebase Authentication for:
 
-1. **Full Name**: Validates that the first letter is capitalized.
-2. **Email**: Validates the presence of "@" and ensures proper email formatting.
-3. **Password**: Ensures a minimum of 6 characters.
-4. **Confirm Password**: Validates that it matches the password.
-
----
-
-### **Features**
-
-- **Successful Validation**:
-    - A dialog is displayed with the message **"Account created successfully"**.
-    - Upon closing the dialog, the user is redirected to the shopping screen.
-
-- **Failed Validation**:
-    - A **SnackBar** appears with an appropriate error message, specifying the issue (e.g., invalid
-      email, mismatched passwords, etc.).
-
-- **Password Toggle Visibility**:
-    - Password fields include an **Eye Icon** to toggle visibility between plain text and obscured
-      text.
+- **Sign Up**: Users can create an account using email and password.
+- **Login**: Users can log in using their registered email and password.
+- **Logout**: Users can log out from their accounts.
 
 ---
 
-### **Widgets Used**
+### Sign Up Screen
 
-- **CustomTextFormField**:
-    - A reusable widget for text form fields.
-    - Includes configurable properties like:
-        - `label`: Field label text.
-        - `validation`: Custom validation logic.
-        - `inputType`: Specifies the type of input (text, email, password, etc.).
-        - `obscureText`: Hides the input for password fields.
-        - `controller`: Manages the state of the input field.
+- **Full Name**: Validates that the first letter is capitalized.
+- **Email**: Validates the presence of "@" and ensures proper email formatting.
+- **Password**: Ensures a minimum of 6 characters.
+- **Confirm Password**: Validates that it matches the password.
 
----
+#### Validation:
 
-### **Code Explanation**
-
-- **Validation Logic**: Each field has a corresponding validator to check the input against specific
-  rules (e.g., password length, email format).
-- **Dialog and SnackBar**:
-    - **Dialog**: Shown on successful validation with a button to navigate to the shopping screen.
-    - **SnackBar**: Appears with an error message if validation fails.
-- **Navigation**: On successful account creation, the user is navigated to the **ShoppingScreen**
-  using the `Navigator.push` method.
+- **Success**: A dialog is displayed with the message "Account created successfully", and the user
+  is redirected to the shopping screen.
+- **Failure**: A SnackBar appears with an appropriate error message (e.g., invalid email, mismatched
+  passwords).
 
 ---
 
-### **Animations**
+### Login Screen
 
-The **Sign Up Screen** and **Shopping Screen** incorporate several animations to enhance the user
-experience:
-
-- **Fade-in Animation for Shopping Screen**:
-    - The **Shopping Screen** initially appears with a **fade-in** effect after a delay of 500
-      milliseconds when navigating from the Sign-Up screen. This makes the transition smooth and
-      visually appealing.
-    - The opacity of the screen changes from `0.0` to `1.0` over 1 second, providing a smooth visual
-      experience as the shopping content loads.
-
-- **AnimatedSwitcher for Screen Transition**:
-    - When the user successfully signs up, an **AnimatedSwitcher** is used to switch between the *
-      *Sign Up Screen** and the **Shopping Screen**.
-    - This creates a seamless transition between screens with a fade-in effect for the shopping
-      screen.
-
-- **AnimatedOpacity for Form Elements**:
-    - On the **Sign Up Screen**, the form elements, such as input fields and buttons, are wrapped
-      with an **AnimatedOpacity** widget, providing a fade-in effect when the form is loaded.
-
-- **Dialog Animation**:
-    - When the user successfully validates the form, an **AlertDialog** appears with a smooth
-      fade-in transition, providing clear feedback for account creation success.
-    - Upon closing the dialog, the app fades out the current screen before navigating to the
-      shopping screen.
+- **Login**: Users can log in using their email and password.
+- **Firebase Authentication Errors**: Handles errors such as wrong password or user not found,
+  showing an appropriate error message.
 
 ---
 
-### **Animation Code Explanation**
+### Logout Functionality
 
-- **Fade-in**: The `AnimatedOpacity` widget is used to animate the opacity of the `ShoppingScreen`
-  and other UI elements, giving them a smooth transition.
-- **AnimatedSwitcher**: This widget allows for smooth transitions between different screens,
-  particularly useful when switching between the **Sign Up Screen** and **Shopping Screen**.
+- **Logout**: Users can log out from their accounts, which redirects them to the login screen.
 
-### **New Features Added**
+---
 
-#### **Fade-In Animation**
+### Localization and Language Management
 
-- A **fade-in** effect has been introduced for the **ShoppingScreen** to ensure a smooth entry when
-  transitioning from the **Sign Up Screen**.
-- This is achieved using the `AnimatedOpacity` widget, which allows for a simple and responsive
-  transition.
-- The opacity of the screen starts at 0.0 and gradually transitions to 1.0 with a delay of **300
-  milliseconds**, providing a sleek visual effect for the screen's appearance.
+#### Localization Setup
 
-### **Localization Setup**
+- The app uses **flutter_localizations** and **Cubit** to manage localization and language changes.
 
-1. Add Localization Files The app uses Flutter's `flutter_localizations` package to support multiple
-   languages.
-2. The translation files are located in the `l10n` folder:
-   `app_ar.arb` (Arabic)
-   `app_en.arb` (English)
+##### Translation Files:
+
+- **Located in the `l10n` folder**:
+  - `app_en.arb` (English translations)
+  - `app_ar.arb` (Arabic translations)
+
+#### Cubit for Locale Management:
+
+- The **ChangeLanguageCubit** manages the app's current locale and notifies the UI when the language
+  changes.
+
+#### Change Language:
+
+- Users can switch between Arabic and English using a language toggle button.
+
+---
+
+### State Management
+
+The app uses **Cubit** for state management:
+
+- **ChangeLanguageCubit**: Manages the app's locale and language changes.
+
+---
+
+### Animations
+
+#### Fade-In Animation
+
+- The **ShoppingScreen** uses a **fade-in animation** when navigating from the **Sign Up** or *
+  *Login** screens.
+- Achieved using `AnimatedOpacity` with a delay of 500 milliseconds.
+
+#### Dialog Animation
+
+- Success and error dialogs use smooth fade-in transitions for a better user experience.
+
+---
+
+## Dependencies
+
+The app uses the following packages:
+
+- **[firebase_core](https://pub.dev/packages/firebase_core)**: For Firebase integration.
+- **[firebase_auth](https://pub.dev/packages/firebase_auth)**: For authentication.
+- **[flutter_localizations](https://pub.dev/packages/flutter_localizations)**: For localization.
+- **[flutter_bloc](https://pub.dev/packages/flutter_bloc)**: For state management using Cubit.
+- **[intl](https://pub.dev/packages/intl)**: For internationalization support.
+
+---
