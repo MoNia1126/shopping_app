@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/cubits/change_language_cubit.dart';
+import 'package:shopping_app/screens/biometric_helper.dart';
+import 'package:shopping_app/screens/profile_screen.dart';
 import 'package:shopping_app/widgets/hot_offer_list.dart';
 import 'package:shopping_app/screens/login_screen.dart';
 import 'package:shopping_app/widgets/product_grid.dart';
@@ -103,11 +105,26 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
               ],
               underline: const SizedBox(),
             ),
+            // IconButton(
+            //     onPressed: () {
+            //       handleLogout(context);
+            //     },
+            //     icon: Icon(Icons.logout, color: Colors.white)),
             IconButton(
-                onPressed: () {
-                  handleLogout(context);
-                },
-                icon: Icon(Icons.logout, color: Colors.white))
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () async {
+                bool isAuthenticated = await BiometricHelper().authenticate();
+                if (isAuthenticated) {
+                  if (mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfileScreen()),
+                    );
+                  }
+                }
+              },
+            ),
           ],
           backgroundColor: Colors.deepPurple,
         ),
